@@ -3,7 +3,7 @@ import numpy as np
 
 def calculate_demographic_data(print_data=True):
    # Read data from file
-    df = pd.read_csv(r'C:\Users\Lumpy\Documents\GitHub\Data-Exercises\Demographics\adult.data.csv')
+    df = pd.read_csv(r'adult.data.csv')
 
     # How many of each race are represented in this dataset? This should be a Pandas series with race names as the index labels.
     race_count = None
@@ -11,11 +11,11 @@ def calculate_demographic_data(print_data=True):
     # What is the average age of men?
 
     m = df[df['sex'].str.contains('Male')]
-    average_age_men = '{:.1%}'.format(m["age"].mean())        
+    average_age_men = float('{:.03}'.format(m["age"].mean()))        
 
     # What is the percentage of people who have a Bachelor's degree?
     b = len(df[df['education'].str.contains('Bachelors')])
-    percentage_bachelors = b / len(df) * 100
+    percentage_bachelors = "%.2f" % (b*100 / len(df))
 
     #print(average_age_men, percentage_bachelors)
     # What percentage of people with advanced education (`Bachelors`, `Masters`, or `Doctorate`) make more than 50K?
@@ -31,8 +31,8 @@ def calculate_demographic_data(print_data=True):
     # percentage with salary >50K
     hr = df[df['education'].str.contains('Bachelors|Masters|Doctorate')]
     hr = len(hr[hr['salary'].str.contains('>')])
-    higher_education_rich = '{:.1%}'.format(hr / h)       
-    lower_education_rich = 1 - (hr/h) * 100
+    higher_education_rich = "%.2f" % (hr*100 / h)
+    lower_education_rich = "%.2f" % (1 - (hr/h))
 
     #print(hr/h, 1-hr/h)
     # What is the minimum number of hours a person works per week (hours-per-week feature)?
@@ -55,7 +55,7 @@ def calculate_demographic_data(print_data=True):
             hecp = p[i]
 
     highest_earning_country = hec
-    highest_earning_country_percentage = hecp * 100
+    highest_earning_country_percentage = "%.2f" % (hecp)
     #print(hec, hecp)
 
     # Identify the most popular occupation for those who earn >50K in India.
