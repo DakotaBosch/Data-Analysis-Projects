@@ -6,7 +6,8 @@ def calculate_demographic_data(print_data=True):
     df = pd.read_csv(r'adult.data.csv')
 
     # How many of each race are represented in this dataset? This should be a Pandas series with race names as the index labels.
-    race_count = None
+    rc = df['race'].value_counts()
+    race_count = rc
 
     # What is the average age of men?
 
@@ -15,7 +16,7 @@ def calculate_demographic_data(print_data=True):
 
     # What is the percentage of people who have a Bachelor's degree?
     b = len(df[df['education'].str.contains('Bachelors')])
-    percentage_bachelors = "%.2f" % (b*100 / len(df))
+    percentage_bachelors = float("%.1f" % (b*100 / len(df)))
 
     #print(average_age_men, percentage_bachelors)
     # What percentage of people with advanced education (`Bachelors`, `Masters`, or `Doctorate`) make more than 50K?
@@ -29,10 +30,12 @@ def calculate_demographic_data(print_data=True):
     #print(higher_education, lower_education)
 
     # percentage with salary >50K
-    hr = df[df['education'].str.contains('Bachelors|Masters|Doctorate')]
-    hr = len(hr[hr['salary'].str.contains('>')])
-    higher_education_rich = "%.2f" % (hr*100 / h)
-    lower_education_rich = "%.2f" % (1 - (hr/h))
+    he = df[df['education'].str.contains('Bachelors|Masters|Doctorate')]
+    le = df[~df['education'].str.contains('Bachelors|Masters|Doctorate')]
+    ler = len(le[le['salary'].str.contains('>')])
+    her = len(he[he['salary'].str.contains('>')])
+    higher_education_rich = float("%.1f" % (her*100 / len(he)))
+    lower_education_rich = float("%.1f" % (ler*100/len(le)))
 
     #print(hr/h, 1-hr/h)
     # What is the minimum number of hours a person works per week (hours-per-week feature)?
@@ -55,7 +58,7 @@ def calculate_demographic_data(print_data=True):
             hecp = p[i]
 
     highest_earning_country = hec
-    highest_earning_country_percentage = "%.2f" % (hecp)
+    highest_earning_country_percentage = float("%.1f" % (hecp*100))
     #print(hec, hecp)
 
     # Identify the most popular occupation for those who earn >50K in India.
