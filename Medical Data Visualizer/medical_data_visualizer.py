@@ -32,15 +32,13 @@ def draw_cat_plot():
 # Draw Heat Map
 def draw_heat_map():
     # Clean the data
-    print(len(df))
     df_heat = df[(df['ap_lo'] <= df['ap_hi'])]
     df_heat = df_heat[(df['height'] >= df['height'].quantile(0.025)) & (df['height'] <= df['height'].quantile(0.975))]
     df_heat = df_heat[(df['weight'] >= df['weight'].quantile(0.025)) & (df['weight'] <= df['weight'].quantile(0.975))] 
     
-    print(len(df_heat))
     # Calculate the correlation matrix
     corr = df_heat.corr()
-    print('%%%%%')
+
     # Generate a mask for the upper triangle
     mask = np.triu(corr)
 
